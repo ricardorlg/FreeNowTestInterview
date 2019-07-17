@@ -6,6 +6,7 @@ import com.freenow.android_demo.activities.MainActivity;
 import com.freenow.android_demo.dependencies.module.NetworkModule;
 import com.freenow.android_demo.dependencies.module.PermissionModule;
 import com.freenow.android_demo.dependencies.module.SharedPrefStorageModule;
+import com.freenow.android_demo.utils.network.HttpClient;
 
 import javax.inject.Singleton;
 

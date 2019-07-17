@@ -3,6 +3,8 @@ package com.freenow.android_demo;
 import android.app.Application;
 import android.content.Context;
 
+import androidx.annotation.VisibleForTesting;
+
 import com.freenow.android_demo.dependencies.component.AppComponent;
 import com.freenow.android_demo.dependencies.component.DaggerAppComponent;
 import com.freenow.android_demo.dependencies.module.SharedPrefStorageModule;
@@ -27,4 +29,8 @@ public class App extends Application {
         return mAppComponent;
     }
 
+    @VisibleForTesting
+    public void setComponent(AppComponent component) {
+        this.mAppComponent = component;
+    }
 }

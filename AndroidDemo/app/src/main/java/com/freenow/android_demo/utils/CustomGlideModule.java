@@ -9,6 +9,8 @@ import com.bumptech.glide.integration.okhttp3.OkHttpUrlLoader;
 import com.bumptech.glide.load.model.GlideUrl;
 import com.bumptech.glide.module.AppGlideModule;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.InputStream;
 import java.util.concurrent.TimeUnit;
 
@@ -20,7 +22,7 @@ import static com.freenow.android_demo.misc.Constants.SOCKET_TIMEOUT;
 public class CustomGlideModule extends AppGlideModule {
 
     @Override
-    public void registerComponents(Context context, Glide glide, Registry registry) {
+    public void registerComponents(@NotNull Context context, @NotNull Glide glide, @NotNull Registry registry) {
         final OkHttpClient.Builder builder = new OkHttpClient.Builder();
         builder.readTimeout(SOCKET_TIMEOUT, TimeUnit.SECONDS);
         registry.append(GlideUrl.class, InputStream.class, new OkHttpUrlLoader.Factory(builder.build()));

@@ -3,13 +3,17 @@ package com.freenow.android_demo.activities;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.widget.Toolbar;
+
+import androidx.annotation.NonNull;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationView;
+
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.widget.Toolbar;
+
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -85,7 +89,9 @@ public class MainActivity extends AuthenticatedActivity
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
+        if (mapFragment != null) {
+            mapFragment.getMapAsync(this);
+        }
 
         AppComponent appComponent = App.getApplicationContext(this).getAppComponent();
         appComponent.inject(this);
@@ -163,13 +169,11 @@ public class MainActivity extends AuthenticatedActivity
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         mPermissionHelper.setLocationPermissionGranted(false);
-        switch (requestCode) {
-            case PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    mPermissionHelper.setLocationPermissionGranted(true);
-                }
+        // If request is cancelled, the result arrays are empty.
+        if (requestCode == PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION) {
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                mPermissionHelper.setLocationPermissionGranted(true);
             }
         }
         updateLocationUI();
@@ -180,21 +184,20 @@ public class MainActivity extends AuthenticatedActivity
             return;
         }
         try {
-            if (mPermissionHelper.isLocationPermissionGranted()) {
-            } else {
+            if (!mPermissionHelper.isLocationPermissionGranted()) {
                 mLastKnownLocation = null;
                 mPermissionHelper.getLocationPermission(this);
             }
-        } catch (SecurityException e)  {
+        } catch (SecurityException e) {
             Log.e("Exception: %s", e.getMessage());
         }
     }
 
     private void getDeviceLocation() {
-    /*
-     * Get the best and most recent location of the device, which may be null in rare
-     * cases when a location is not available.
-     */
+        /*
+         * Get the best and most recent location of the device, which may be null in rare
+         * cases when a location is not available.
+         */
         try {
             if (mPermissionHelper.isLocationPermissionGranted()) {
                 Task locationResult = mFusedLocationProviderClient.getLastLocation();
@@ -213,7 +216,7 @@ public class MainActivity extends AuthenticatedActivity
                     }
                 });
             }
-        } catch(SecurityException e)  {
+        } catch (SecurityException e) {
             Log.e("Exception: %s", e.getMessage());
         }
     }

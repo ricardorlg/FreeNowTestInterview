@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.util.Date;
+import java.util.Objects;
 
 public class Driver implements Parcelable {
 
@@ -28,7 +29,17 @@ public class Driver implements Parcelable {
         mLocation = parcel.readString();
         mRegisteredDate = new Date(parcel.readLong());
     }
-
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Driver driver = (Driver) o;
+        return mName.equals(driver.mName) &&
+                mPhone.equals(driver.mPhone) &&
+                mAvatar.equals(driver.mAvatar) &&
+                mLocation.equals(driver.mLocation) &&
+                mRegisteredDate.equals(driver.mRegisteredDate);
+    }
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeString(mName);
@@ -75,4 +86,8 @@ public class Driver implements Parcelable {
         return 0;
     }
 
+    @Override
+    public String toString() {
+        return "Driver: "+mName;
+    }
 }

@@ -35,8 +35,12 @@ public class HttpClient {
     private final JsonParser mJsonParser;
 
     public HttpClient() {
-        mClient = new OkHttpClient.Builder().readTimeout(SOCKET_TIMEOUT, TimeUnit.SECONDS).build();
+        mClient = OkHttpProvider.INSTANCE.getInstance();
         mJsonParser = new JsonParser();
+    }
+
+    public OkHttpClient getmClient() {
+        return mClient;
     }
 
     public void fetchDrivers(final DriverCallback driverCallback) {

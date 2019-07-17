@@ -17,7 +17,7 @@ public class SharedPrefStorageModule {
     }
 
     @Provides
-    SharedPrefStorage provideSharedPrefStorage() {
+    public SharedPrefStorage provideSharedPrefStorage() {
         return new SharedPrefStorage(mContext);
     }
 
