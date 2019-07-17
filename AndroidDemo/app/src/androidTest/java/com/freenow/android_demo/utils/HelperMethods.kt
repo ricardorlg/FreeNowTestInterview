@@ -38,8 +38,8 @@ fun Date.format(simpleFormat: String = "yyyy-MM-dd"): String {
     return SimpleDateFormat(simpleFormat).format(this)
 }
 
-fun String.toSimpleDate(simpleFormat: String = "yyyy-MM-dd"): Date {
-    return runCatching { SimpleDateFormat("yyyy-MM-dd").parse(this) }.fold(onFailure = { Date(0) }, onSuccess = { it })
+fun String.toSimpleDate(simpleFormat: String = "yyyy-MM-dd"): Date? {
+    return runCatching { SimpleDateFormat(simpleFormat).parse(this) }.fold(onFailure = { Date(0) }, onSuccess = { it })
 }
 
 fun AbsListViewAdapterAssertions.allItemsStartsWith(expectedPrefix: String) {

@@ -19,7 +19,9 @@ class LoginActions : Actions {
         screen {
             uerNameInput {
                 typeText(userName)
+
             }
+            closeSoftKeyboard()
             passwordField {
                 typeText(password)
 

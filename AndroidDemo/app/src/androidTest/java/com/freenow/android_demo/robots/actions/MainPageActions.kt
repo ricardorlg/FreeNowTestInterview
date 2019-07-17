@@ -41,6 +41,7 @@ class MainPageActions : Actions {
                 isDisplayed()
                 typeText(query)
             }
+            closeSoftKeyboard()
         }
         return DriverSuggestionsAction().action()
     }

@@ -57,25 +57,29 @@ jobs:
             sudo gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
       - run:
           name: Test with Firebase Test Lab
-          command: |
+          command: >
             sudo gcloud firebase test android run \
               --app AndroidDemo/app/build/outputs/apk/debug/app-debug.apk \
               --test AndroidDemo/app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk \
-              --device model=Nexus6P,version=26,locale=es,orientation=portrait  \
-              --device model=walleye,version=28,locale=en,orientation=landscape |& \
-              tee fire.log
+              --use-orchestrator \
+              --device model=blueline,version=28,locale=es,orientation=portrait \
+              --device model=HWMHA,version=24,locale=es,orientation=portrait   \
+              --device model=Pixel2,version=26,locale=es,orientation=landscape \
+              --device model=athene,version=23,locale=es,orientation=landscape  |& \
+              tee testlab.log
+              
       - run:
-          name: Install gsutil dependency and copy test results data
+          name: Download instrumented test results from Firebase Test Lab
           command: |
             sudo pip install -U crcmod
             mkdir results
-            sudo gsutil -m cp -r -U gs://`egrep -o 'test-lab-[^]]+' fire.log` results | true
+            sudo gsutil -m cp -r -U gs://`egrep -o 'test-lab.*/' testlab.log | tail -1` results | true
           when: always
+      - store_test_results:
+          path: results
       - store_artifacts:
           path: results
           destination: results
-      - store_test_results:
-          path: results
 workflows:
   version: 2
   build_and_test:
